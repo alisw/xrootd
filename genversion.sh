@@ -170,6 +170,10 @@ else
       git describe --tags --abbrev=0 --exact-match >/dev/null 2>&1
       if test ${?} -eq 0; then
         VERSION="`git describe --tags --abbrev=0 --exact-match`"
+        if [[ $VERSION =~ ^(.*)-alice[0-9]+$ ]]; then
+          # ALICE special patch release. Strip the final "-aliceX" part.
+          VERSION="${BASH_REMATCH[1]}"
+        fi
       else
         LOGINFO="`git log -1 --format='%ai %h'`"
 	if test ${?} -eq 0; then
